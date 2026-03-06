@@ -10,7 +10,7 @@ A lightweight AI chat application built with **Angular 19** and **Angular Materi
 - **Loading states** with spinner indicator while the AI responds
 - **Error handling** with dismissible error banner
 - **Chat history** persisted in localStorage across sessions
-- **Lazy-loaded messages** to keep the DOM lean with large conversation histories
+- **Paginated messages** to keep the DOM lean with large conversation histories
 - **Clear button** to reset the conversation
 
 ## Tech Stack
