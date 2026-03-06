@@ -1,0 +1,110 @@
+<div class="chat-container">
+  <div #messagesContainer class="messages-area" role="log" aria-live="polite" aria-label="Chat messages">
+    @if (!chatService.hasMessages() && !chatService.loading()) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">chat_bubble_outline</mat-icon>
+        <h2>Welcome to Chatterbox</h2>
+        <p>Type a prompt below to start chatting with the AI.</p>
+      </div>
+    }
+
+    @if (chatService.hasMoreMessages()) {
+      <div class="load-more-container">
+        <button mat-stroked-button (click)="loadMoreMessages()" class="load-more-btn">
+          <mat-icon>expand_less</mat-icon>
+          Load older messages
+        </button>
+      </div>
+    }
+
+    @for (message of chatService.visibleMessages(); track message.timestamp) {
+      <div class="message" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
+        <div class="message-avatar">
+          <mat-icon>{{ message.role === 'user' ? 'person' : 'smart_toy' }}</mat-icon>
+        </div>
+        <div class="message-content">
+          <div class="message-header">
+            <span class="message-role">{{ message.role === 'user' ? 'You' : 'AI' }}</span>
+            <span class="message-time">{{ message.timestamp | date: 'shortTime' }}</span>
+          </div>
+          <div class="message-text">{{ message.content }}</div>
+          <button
+            mat-icon-button
+            (click)="copyMessage(message.content, message.timestamp)"
+            [matTooltip]="copiedMessageId === message.timestamp ? 'Copied!' : 'Copy message'"
+            class="copy-button"
+            [class.copied]="copiedMessageId === message.timestamp"
+            aria-label="Copy message"
+          >
+            <mat-icon>{{ copiedMessageId === message.timestamp ? 'check' : 'content_copy' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (chatService.loading()) {
+      <div class="message assistant">
+        <div class="message-avatar">
+          <mat-icon>smart_toy</mat-icon>
+        </div>
+        <div class="message-content">
+          <div class="typing-indicator">
+            <mat-spinner diameter="20"></mat-spinner>
+            <span class="thinking-text">Thinking<span class="animated-dots">.</span></span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (chatService.error(); as errorMsg) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMsg }}</span>
+      <button mat-icon-button (click)="chatService.error.set(null)" matTooltip="Dismiss" aria-label="Dismiss error">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  }
+
+  <div class="input-area">
+    <mat-form-field appearance="outline" class="prompt-field">
+      <mat-label>Type your message...</mat-label>
+      <textarea
+        matInput
+        #promptInput
+        [(ngModel)]="prompt"
+        (keydown)="onKeydown($event)"
+        [disabled]="chatService.loading()"
+        rows="1"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="4"
+      ></textarea>
+    </mat-form-field>
+
+    <div class="input-actions">
+      <button
+        mat-fab
+        color="primary"
+        (click)="onSubmit()"
+        [disabled]="!prompt.trim() || chatService.loading()"
+        matTooltip="Send message"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+
+      @if (chatService.hasMessages()) {
+        <button
+          mat-icon-button
+          (click)="onClear()"
+          [disabled]="chatService.loading()"
+          matTooltip="Clear chat history"
+          class="clear-button"
+        >
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+</div>

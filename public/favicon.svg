@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Background -->
+  <rect width="256" height="256" fill="#ffffff"/>
+  
+  <!-- Chat bubble shape with Material Design primary blue -->
+  <g>
+    <!-- Main bubble body -->
+    <path d="M32 48C32 37.06 41.06 28 52 28h152c10.94 0 20 9.06 20 20v120c0 10.94-9.06 20-20 20h-112l-44 32v-32H52c-10.94 0-20-9.06-20-20V48z" 
+          fill="#6366f1" stroke="none"/>
+    
+    <!-- Accent highlight for depth -->
+    <circle cx="80" cy="80" r="8" fill="#818cf8" opacity="0.4"/>
+    <circle cx="140" cy="95" r="5" fill="#818cf8" opacity="0.3"/>
+  </g>
+</svg>

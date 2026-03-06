@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-toolbar {
+  flex-shrink: 0;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.app-title {
+  font: var(--mat-sys-title-large);
+}

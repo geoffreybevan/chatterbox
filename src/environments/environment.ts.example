@@ -1,0 +1,5 @@
+export const environment = {
+  production: false,
+  huggingFaceApiKey: 'YOUR_HUGGINGFACE_API_KEY', // Replace with your actual Hugging Face API key
+  huggingFaceModel: 'meta-llama/Llama-3.1-8B-Instruct',
+};
